@@ -17,12 +17,12 @@ jobs:
       uses: actions/setup-java@v2
       with:
         distribution: 'adopt'
-        java-version: '11'
+        java-version: '17'
 
     - name: Build Spring Boot project
       run: |
-        chmod +x mvnw
-        ./mvnw clean install
+        chmod +x mvn
+        ./mvn clean install
 
     - name: Set up environment variable
       run: echo "DRIVER_PATH=${GITHUB_WORKSPACE}/geckodriver.exe" >> $GITHUB_ENV
