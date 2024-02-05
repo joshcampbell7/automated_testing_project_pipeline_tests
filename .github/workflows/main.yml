@@ -23,9 +23,7 @@ jobs:
         java-version: '17'
 
     - name: Build Spring Boot project
-      run: |
-        chmod +x mvnw
-        ./mvnw clean install
+      run: mvn clean install
 
     - name: Set up environment variable
       run: echo "DRIVER_PATH=${GITHUB_WORKSPACE}/geckodriver.exe" >> $GITHUB_ENV
