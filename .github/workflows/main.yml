@@ -25,7 +25,7 @@ jobs:
         ./mvnw clean install
 
     - name: Set up environment variable
-      run: echo "DRIVER_PATH=/test/driver.exe" >> $GITHUB_ENV
+      run: echo "DRIVER_PATH=${GITHUB_WORKSPACE}/geckodriver.exe" >> $GITHUB_ENV
 
     - name: Run Spring Boot application
       run: java -jar target/your-spring-boot-app.jar &
