@@ -1,0 +1,46 @@
+name: Run Automated Testing Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+
+    - name: Build Spring Boot project
+      run: |
+        chmod +x mvnw
+        ./mvnw clean install
+
+    - name: Set up environment variable
+      run: echo "DRIVER_PATH=/test/driver.exe" >> $GITHUB_ENV
+
+    - name: Run Spring Boot application
+      run: java -jar target/your-spring-boot-app.jar &
+
+    - name: Wait for application to start
+      run: sleep 30
+
+    - name: Run API Tests
+      id: api-tests
+      run: |
+        # Assuming your API returns JSON with totalTestPassed and totalTestFailed
+        response=$(curl -s -X POST http://localhost:8080/api/test/run/65bbba18dc1cd65719550ee0)
+        
+        echo response
+        fi
+
+    - name: Kill Spring Boot app
+      run: pkill -f "your-spring-boot-app.jar"
