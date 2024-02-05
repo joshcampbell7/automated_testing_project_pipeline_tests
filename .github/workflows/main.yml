@@ -21,8 +21,8 @@ jobs:
 
     - name: Build Spring Boot project
       run: |
-        chmod +x mvn
-        ./mvn clean install
+        chmod +x mvnw
+        ./mvnw clean install
 
     - name: Set up environment variable
       run: echo "DRIVER_PATH=${GITHUB_WORKSPACE}/geckodriver.exe" >> $GITHUB_ENV
@@ -39,7 +39,10 @@ jobs:
         # Assuming your API returns JSON with totalTestPassed and totalTestFailed
         response=$(curl -s -X POST http://localhost:8080/api/test/run/65bbba18dc1cd65719550ee0)
         
-        echo response
+        echo $response  # Corrected from "echo response"
+        if [ $? -ne 0 ]; then
+          echo "API test failed"
+          exit 1
         fi
 
     - name: Kill Spring Boot app
